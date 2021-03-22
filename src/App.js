@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import LoadingMask from "./components/LoadingMask";
+import Hotel from "./components/Hotel";
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -31,7 +32,18 @@ const App = () => {
 
   return (
     <div className="App">
-      {items.length === 0 ? <LoadingMask></LoadingMask> : "hello"}
+      {items.length !== 0 ? (
+        items.map((data, iterator) => (
+          <Hotel
+            key={iterator}
+            name={data.name}
+            city={data.city}
+            stars={data.stars}
+          ></Hotel>
+        ))
+      ) : (
+        <LoadingMask></LoadingMask>
+      )}
     </div>
   );
 };
