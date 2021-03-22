@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 function Subscription(props) {
   const [isValid, setValid] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [isResponse, setResponse] = useState(666);
 
   function emailIsValid(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -21,15 +22,29 @@ function Subscription(props) {
       email: inputValue,
       hotel: props.name,
     };
-
+    setLoading(true);
     fetch("api/hotels/subscribe", {
       method: "POST",
       mode: "no-cors",
       body: bodyObj,
-    }).then((response) => console.log(response));
+    }).then((response) => setResponse(response));
   }
 
+  if (isResponse !== 666) {
+    setTimeout(function () {
+      console.log("timed");
+      props.setOpen(false);
+    }, 5000);
+  }
+
+  console.log(isResponse);
+
   console.log(isValid);
+
+  /* if (isResponse !== 666) {
+    setTime();
+  } */
+
   return (
     <div>
       <h4> Request more info about </h4>
@@ -40,9 +55,12 @@ function Subscription(props) {
             submit
           </button>
         </form>
-      ) : (
+      ) : isLoading && isResponse === 666 ? (
         <div>loading</div>
+      ) : (
+        ""
       )}
+      <div>{isResponse.status === 200 ? "Already Subscribed" : ""}</div>
     </div>
   );
 }

@@ -22,7 +22,11 @@ function Hotels(props) {
             {props.stars}
           </div>
           <button onClick={() => setRequest(!isRequest)}>Request more info</button>
-          {isRequest ? <Subscription name={props.name}></Subscription> : ""}
+          {isRequest ? (
+            <Subscription setOpen={setRequest} name={props.name}></Subscription>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         ""
